@@ -33,9 +33,10 @@ if (process.env.NODE_ENV === "production") {
   // if it doesn't recognize the route
   const path = require("path");
 
-  app.get("*/", (req, res) => {
+  app.get("*", (req, res) => {
+    console.log(path.dirname());
     res.sendFile(
-      path.join(__dirname, "client", "build", "index.html"),
+      path.join("../" + __dirname, "client", "build", "index.html"),
       (err) => {
         if (err) {
           console.log(err);
