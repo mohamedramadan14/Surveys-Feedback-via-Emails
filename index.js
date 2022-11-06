@@ -1,12 +1,12 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const { mongoURI, cookieKey } = require("./config/keys");
+const { mongoURI, cookieKey } = require("./server/config/keys");
 const cookieSession = require("cookie-session");
 const passport = require("passport");
 const bodyParser = require("body-parser");
-require("./models/User");
-require("./services/passport");
-const connectDatabase = require("./utils/dbConnect");
+require("./server/models/User");
+require("./server/services/passport");
+const connectDatabase = require("./server/utils/dbConnect");
 
 connectDatabase(mongoURI);
 const app = express();
@@ -21,8 +21,8 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-require("./routes/authRoutes")(app);
-require("./routes/billingRoutes")(app);
+require("./server/routes/authRoutes")(app);
+require("./server/routes/billingRoutes")(app);
 
 if (process.env.NODE_ENV === "production") {
   // Express will serve up production assets
@@ -34,9 +34,9 @@ if (process.env.NODE_ENV === "production") {
   const path = require("path");
 
   app.get("*", (req, res) => {
-    // console.log(path.dirname());
+    console.log(__dirname);
     res.sendFile(
-      path.join("../" + __dirname, "client", "build", "index.html"),
+      path.join(__dirname, "client", "build", "index.html"),
       (err) => {
         if (err) {
           console.log(err);
