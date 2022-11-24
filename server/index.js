@@ -6,9 +6,11 @@ const passport = require("passport");
 const bodyParser = require("body-parser");
 const path = require("path");
 require("./models/User");
+require("./models/Survey");
 require("./services/passport");
+
 const connectDatabase = require("./utils/dbConnect");
-console.log(path.resolve(__dirname, ".."));
+
 connectDatabase(mongoURI);
 const app = express();
 app.use(bodyParser.json());
@@ -24,6 +26,7 @@ app.use(passport.session());
 
 require("./routes/authRoutes")(app);
 require("./routes/billingRoutes")(app);
+require("./routes/surveyRoutes")(app);
 
 if (process.env.NODE_ENV === "production") {
   // Express will serve up production assets
@@ -34,7 +37,6 @@ if (process.env.NODE_ENV === "production") {
   // if it doesn't recognize the route
 
   app.get("*", (req, res) => {
-    // console.log(__dirname);
     res.sendFile(
       path.resolve(__dirname, "..", "client", "build", "index.html"),
       (err) => {
