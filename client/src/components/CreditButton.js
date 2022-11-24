@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import * as actions from "../actions";
 
 const CreditButton = ({ handleToken }) => {
-  console.log(handleToken);
+  //console.log(handleToken);
   return (
     <StripeCheckout
       name="SurveySender"
